@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ejercicios.com.renderapp.MainActivity">
+
+
+        <ImageView
+            android:id="@+id/back1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/negx" />
+
+        <ImageView
+            android:id="@+id/back2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/posz" />
+        <ImageView
+            android:id="@+id/back3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/posx" />
+
+        <ImageView
+            android:id="@+id/back4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/negz" />
+
+
+
+</RelativeLayout>
