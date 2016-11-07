@@ -45,11 +45,16 @@ public class LoadObject extends RajawaliRenderer {
     private Object3D spike;
     private int ancho;
     private int alto;
+    private float planePosition = 1.0f;
+    private double distance = 1.0f;
+    private double distance2 = 0;
 
 
 
     public LoadObject(Context context) {
         super(context);
+        getScreenSize();
+
     }
 
 
@@ -121,16 +126,26 @@ public class LoadObject extends RajawaliRenderer {
     public void onTouchEvent(MotionEvent event) {
 
     }
-    public void movimientoEjes(double x, double y) {
+
+    private void getScreenSize(){
         DisplayMetrics dm = mContext.getResources().getDisplayMetrics();
         alto =(int) dm.heightPixels;
         ancho = (int) dm.widthPixels;
+    }
 
+    public void movimientoEjes(double x, double y) {
 
-        mAccValuesx = (mAccValuesxOld - x) / -200f;
-        mAccValuesy = (mAccValuesyOld - y) / 2f;
+        double rotatex = 0;
+        double rotatey = 0;
 
-        Log.i("Rotation", "-------______________________-");
+        mAccValuesx = x;
+        mAccValuesy = y;
+        rotatex = (mAccValuesxOld - x) / 2f;
+        rotatey = (mAccValuesyOld - y) / 2f;
+
+        rotatey =
+
+        Log.i("Rotation", "--- Inicio de calculo ---");
         Log.i("Rotation", "grades:" + getHypotenusa(mAccValuesx,mAccValuesy) * (Math.PI / 180));
 
         getGrades(mAccValuesx, mAccValuesy);
@@ -140,7 +155,12 @@ public class LoadObject extends RajawaliRenderer {
         double gradosX = mObjectGroup.getRotX();
 
 //        mObjectGroup.setRotZ(gradosZ + mAccValuesx);
-        mObjectGroup.setRotY(mObjectGroup.getRotY() + mAccValuesy);
+//        mObjectGroup.setRotY(mObjectGroup.getRotY() + rotatey);
+
+        mObjectGroup.rotateAround(new Vector3(0f,.5f,0f), -( x - mAccValuesxOld));
+
+        mObjectGroup.rotateAround(new Vector3(.5f,0f,0f), (y - mAccValuesyOld));
+
 
 //        mObjectGroup.setRotation(Vector3.Axis.X, getHypotenusa(mAccValuesx,mAccValuesy) * (Math.PI / 180));
 //        rotateObject();
@@ -231,13 +251,51 @@ public class LoadObject extends RajawaliRenderer {
         }
     }
 
-    int rot;
     public void setInitialMove(double initx, double inity){
         mAccValuesxOld = initx;
         mAccValuesyOld = inity;
 
     }
 
-    
+
+    public void getScaled(){
+
+        try{
+           planePosition += (mAccValuesy - mAccValuesyOld)  * 0.01f;
+            if(planePosition <= 1.0f){
+                mObjectGroup.setScale(planePosition);
+            }else{
+                mObjectGroup.setScale(2.0f);
+            }
+
+            if(planePosition >= .05f){
+                mObjectGroup.setScale(planePosition);
+            }else{
+                mObjectGroup.setScale(.5f);
+            }
+        }catch(Exception e){
+
+        }
+
+
+    }
+
+    public void getScaledByDistance(MotionEvent event){
+        float escalaEstimada = 0f;
+        float escalaMaxima   = 3f;
+        try{
+
+            distance = Math.sqrt((Math.pow((event.getX(0)- event.getX(1)),2)
+                    + (Math.pow((event.getY(0)- event.getY(1)),2))));
+
+            escalaEstimada = (float)((distance * 3) /alto);
+            mObjectGroup.setScale(escalaEstimada);
+
+        }catch (Exception e){
+
+        }
+    }
+
+
 
 }

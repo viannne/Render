@@ -108,6 +108,9 @@ public class MainActivity extends AppCompatActivity{
                     Log.i("coordenada",  "x: " + motionEvent.getX());
                     Log.i("coordenada",  "y: " + motionEvent.getY());
 
+//                    loadObject.getScaled();
+
+                    loadObject.getScaledByDistance(motionEvent);
 
                     loadObject.setInitialMove(motionEvent.getX(), motionEvent.getY());
                 }
